@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js Sketch</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* Hide scrollbars */
+        }
+    </style>
+</head>
+<body>
+    <script src="p5/p5.js"></script>
+    <script src="p5/p5.sound.js"></script>
+    <script>
+        // Get the sketch name from the URL query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const sketchName = urlParams.get('sketch');
+
+        if (sketchName) {
+            // Create a new script element for the sketch
+            const sketchScript = document.createElement('script');
+            sketchScript.src = `sketches/${sketchName}`;
+            document.body.appendChild(sketchScript);
+        } else {
+            // Display an error message if no sketch is specified
+            const errorMsg = document.createElement('p');
+            errorMsg.textContent = 'Error: No sketch specified. Please provide a sketch name in the URL, e.g., ?sketch=test_sketch.js';
+            document.body.appendChild(errorMsg);
+        }
+    </script>
+</body>
+</html>
