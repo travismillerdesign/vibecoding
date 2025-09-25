@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 link.rel = 'noopener noreferrer';
 
                 const thumbnail = document.createElement('img');
-                thumbnail.src = `sketches/${sketchName}/thumbnail/thumbnail.png?t=${new Date().getTime()}`;
+                thumbnail.src = `sketches/${sketchName}/thumbnail.jpg`;
                 thumbnail.alt = `Thumbnail for ${sketchName}`;
                 thumbnail.onerror = function() {
                     this.style.display = 'none';
