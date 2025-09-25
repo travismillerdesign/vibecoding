@@ -19,7 +19,7 @@ app.get('/capture-thumbnail', async (req, res) => {
         return res.status(400).send('Sketch parameter is required.');
     }
 
-    const sketchUrl = `http://localhost:${port}/sketch.html?sketch=${sketch}&source=puppeteer`;
+    const sketchUrl = `http://localhost:${port}/sketch.html?sketch=${sketch}`;
     const thumbnailPath = path.join(thumbnailsDir, `${path.basename(sketch, '.js')}.png`);
 
     try {

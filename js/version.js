@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             const version = data.version;
             const timestamp = data.timestamp;
-            versionInfo.innerHTML = `Version: ${version}<br>Updated: ${timestamp}`;
+            versionInfo.innerHTML = `${timestamp}<br>${version}`;
         })
         .catch(error => {
             console.error('Error loading version information:', error);
