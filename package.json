@@ -4,14 +4,11 @@
   "description": "A collection of p5.js sketches",
   "main": "js/main.js",
   "scripts": {
-    "start": "serve",
-    "prestart": "npm run generate-thumbnails",
-    "generate-thumbnails": "node scripts/generate-thumbnails.js",
-    "postinstall": "npm run generate-thumbnails"
+    "start": "node server.js"
   },
   "dependencies": {
-    "puppeteer": "^10.4.0",
-    "serve": "^12.0.1"
+    "express": "^4.17.1",
+    "puppeteer": "^10.4.0"
   },
   "author": "",
   "license": "ISC"

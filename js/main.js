@@ -14,8 +14,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const thumbnail = document.createElement('img');
                 const thumbnailName = sketchName.replace('.js', '.png');
-                thumbnail.src = `thumbnails/${thumbnailName}`;
+                thumbnail.src = `thumbnails/${thumbnailName}?t=${new Date().getTime()}`;
                 thumbnail.alt = `Thumbnail for ${sketchName}`;
+                thumbnail.onerror = function() {
+                    this.style.display = 'none';
+                };
 
                 const title = document.createElement('div');
                 title.className = 'title';

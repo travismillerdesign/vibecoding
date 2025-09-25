@@ -24,6 +24,19 @@
             const sketchScript = document.createElement('script');
             sketchScript.src = `sketches/${sketchName}`;
             document.body.appendChild(sketchScript);
+
+            // After 6 seconds, trigger thumbnail generation
+            setTimeout(() => {
+                fetch(`/capture-thumbnail?sketch=${sketchName}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Thumbnail capture failed');
+                        }
+                        return response.text();
+                    })
+                    .then(message => console.log(message))
+                    .catch(error => console.error('Error capturing thumbnail:', error));
+            }, 6000);
         } else {
             // Display an error message if no sketch is specified
             const errorMsg = document.createElement('p');
