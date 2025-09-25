@@ -2,7 +2,7 @@ let simpleShader;
 let ripples = [];
 
 function preload() {
-  simpleShader = loadShader('sketches/gradient_ripple.vert', 'sketches/gradient_ripple.frag');
+  simpleShader = loadShader('sketches/gradient_ripple/gradient_ripple.vert', 'sketches/gradient_ripple/gradient_ripple.frag');
 }
 
 function setup() {
