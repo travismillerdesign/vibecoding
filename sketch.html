@@ -24,14 +24,20 @@
             if (urlParams.get('source') !== 'puppeteer') {
                 // After 6 seconds, trigger thumbnail generation
                 setTimeout(() => {
-                    fetch(`/capture-thumbnail?sketch=${sketchName}`)
+                    fetch(`/api/capture-thumbnail?sketch=${sketchName}`)
                         .then(response => {
                             if (!response.ok) {
                                 throw new Error('Thumbnail capture failed');
                             }
-                            return response.text();
+                            // We expect a blob (image data) in the response
+                            return response.blob();
                         })
-                        .then(message => console.log(message))
+                        .then(imageBlob => {
+                            // Store the blob URL in session storage to be used by the index page
+                            const imageUrl = URL.createObjectURL(imageBlob);
+                            sessionStorage.setItem(`${sketchName}_thumbnail`, imageUrl);
+                            console.log('Thumbnail captured and stored in session storage.');
+                        })
                         .catch(error => console.error('Error capturing thumbnail:', error));
                 }, 6000);
             }

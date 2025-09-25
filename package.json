@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "description": "A collection of p5.js sketches",
   "main": "js/main.js",
-  "scripts": {
-    "start": "node server.js"
-  },
+  "scripts": {},
   "dependencies": {
-    "express": "^4.17.1",
-    "puppeteer": "^10.4.0"
+    "chrome-aws-lambda": "^10.1.0",
+    "puppeteer-core": "^10.4.0"
   },
   "author": "",
   "license": "ISC"

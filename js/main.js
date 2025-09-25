@@ -13,8 +13,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 link.href = `sketch.html?sketch=${sketchName}`;
 
                 const thumbnail = document.createElement('img');
-                const thumbnailName = sketchName.replace('.js', '.png');
-                thumbnail.src = `thumbnails/${thumbnailName}?t=${new Date().getTime()}`;
+                const storedThumbnail = sessionStorage.getItem(`${sketchName}_thumbnail`);
+
+                if (storedThumbnail) {
+                    thumbnail.src = storedThumbnail;
+                } else {
+                    // If no session thumbnail, hide the image element
+                    thumbnail.style.display = 'none';
+                }
+
                 thumbnail.alt = `Thumbnail for ${sketchName}`;
                 thumbnail.onerror = function() {
                     this.style.display = 'none';

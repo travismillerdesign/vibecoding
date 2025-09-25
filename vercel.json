@@ -1,0 +1,7 @@
+{
+    "functions": {
+        "api/capture-thumbnail.js": {
+            "memory": 3008
+        }
+    }
+}
