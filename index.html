@@ -13,29 +13,47 @@
         }
         h1 {
             color: #000;
+            text-align: center;
         }
-        ul {
-            list-style: none;
+        #sketch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
             padding: 0;
         }
-        li {
-            margin: 0.5em 0;
+        .sketch-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s;
         }
-        a {
+        .sketch-card:hover {
+            transform: translateY(-5px);
+        }
+        .sketch-card a {
             text-decoration: none;
-            color: #007bff;
-            font-size: 1.2em;
+            color: #333;
+            display: block;
         }
-        a:hover {
-            text-decoration: underline;
+        .sketch-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        .sketch-card .title {
+            padding: 15px;
+            font-size: 1em;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <h1>p5.js Sketches</h1>
-    <ul id="sketch-list">
-        <!-- Sketch links will be inserted here by JavaScript -->
-    </ul>
+    <div id="sketch-grid">
+        <!-- Sketch cards will be inserted here by JavaScript -->
+    </div>
     <script src="js/main.js"></script>
 </body>
 </html>
