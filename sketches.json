@@ -1,6 +1,7 @@
 {
     "sketches": [
         "test_sketch",
-        "gradient_ripple"
+        "gradient_ripple",
+        "stroke_cone"
     ]
 }
