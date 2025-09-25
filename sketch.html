@@ -9,66 +9,26 @@
             margin: 0;
             overflow: hidden; /* Hide scrollbars */
         }
-        #thumbnail-btn {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 1000;
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        #thumbnail-btn:hover {
-            background-color: #0056b3;
-        }
     </style>
 </head>
 <body>
-    <button id="thumbnail-btn">Create Thumbnail</button>
     <script src="p5/p5.js"></script>
     <script src="p5/p5.sound.js"></script>
     <script>
+        // Get the sketch name from the URL query parameter
         const urlParams = new URLSearchParams(window.location.search);
         const sketchName = urlParams.get('sketch');
 
         if (sketchName) {
-            if (urlParams.get('source') === 'puppeteer') {
-                const button = document.getElementById('thumbnail-btn');
-                if (button) {
-                    button.style.display = 'none';
-                }
-            } else {
-                document.getElementById('thumbnail-btn').addEventListener('click', () => {
-                    fetch(`/capture-thumbnail?sketch=${sketchName}`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Thumbnail capture failed');
-                            }
-                            return response.text();
-                        })
-                        .then(message => {
-                            console.log(message);
-                            alert('Thumbnail created successfully!');
-                        })
-                        .catch(error => {
-                            console.error('Error capturing thumbnail:', error);
-                            alert('Error creating thumbnail.');
-                        });
-                });
-            }
-
+            // Create a new script element for the sketch
             const sketchScript = document.createElement('script');
-            sketchScript.src = `sketches/${sketchName}`;
+            sketchScript.src = `sketches/${sketchName}/${sketchName}.js`;
             document.body.appendChild(sketchScript);
         } else {
+            // Display an error message if no sketch is specified
             const errorMsg = document.createElement('p');
-            errorMsg.textContent = 'Error: No sketch specified. Please provide a sketch name in the URL, e.g., ?sketch=test_sketch.js';
+            errorMsg.textContent = 'Error: No sketch specified. Please provide a sketch name in the URL, e.g., ?sketch=test_sketch';
             document.body.appendChild(errorMsg);
-            document.getElementById('thumbnail-btn').style.display = 'none';
         }
     </script>
 </body>

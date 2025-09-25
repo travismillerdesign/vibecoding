@@ -11,12 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const link = document.createElement('a');
                 link.href = `sketch.html?sketch=${sketchName}`;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
 
                 const thumbnail = document.createElement('img');
-                const thumbnailName = sketchName.replace('.js', '.png');
-                thumbnail.src = `thumbnails/${thumbnailName}?t=${new Date().getTime()}`;
+                thumbnail.src = `sketches/${sketchName}/thumbnail/thumbnail.png?t=${new Date().getTime()}`;
                 thumbnail.alt = `Thumbnail for ${sketchName}`;
                 thumbnail.onerror = function() {
                     this.style.display = 'none';
@@ -24,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const title = document.createElement('div');
                 title.className = 'title';
-                title.textContent = sketchName.replace('.js', '').replace(/_/g, ' ');
+                title.textContent = sketchName.replace(/_/g, ' ');
 
                 link.appendChild(thumbnail);
                 link.appendChild(title);
