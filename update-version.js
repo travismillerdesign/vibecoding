@@ -3,11 +3,22 @@ const { execSync } = require('child_process');
 
 try {
     const version = execSync('git rev-parse --short HEAD').toString().trim();
-    const timestamp = execSync('git log -1 --format=%cd').toString().trim();
+    const rawTimestamp = execSync('git log -1 --format=%cd').toString().trim();
+    const date = new Date(rawTimestamp);
+
+    const formattedTimestamp = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Los_Angeles',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+    }).format(date);
 
     const versionInfo = {
         version,
-        timestamp,
+        timestamp: formattedTimestamp,
     };
 
     fs.writeFileSync('version.json', JSON.stringify(versionInfo, null, 2));
