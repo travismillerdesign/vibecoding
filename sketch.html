@@ -36,25 +36,37 @@
         const sketchName = urlParams.get('sketch');
 
         if (sketchName) {
-            const sketchScript = document.createElement('script');
-            sketchScript.src = `sketches/${sketchName}`;
-            document.body.appendChild(sketchScript);
+            if (urlParams.get('source') === 'puppeteer') {
+                const button = document.getElementById('thumbnail-btn');
+                if (button) {
+                    button.style.display = 'none';
+                }
+            } else {
+                document.getElementById('thumbnail-btn').addEventListener('click', () => {
+                    fetch(`/capture-thumbnail?sketch=${sketchName}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Thumbnail capture failed');
+                            }
+                            return response.text();
+                        })
+                        .then(message => {
+                            console.log(message);
+                            alert('Thumbnail created successfully!');
+                        })
+                        .catch(error => {
+                            console.error('Error capturing thumbnail:', error);
+                            alert('Error creating thumbnail.');
+                        });
+                });
+            }
 
-            // After 6 seconds, trigger thumbnail generation
-            setTimeout(() => {
-                fetch(`/capture-thumbnail?sketch=${sketchName}`)
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Thumbnail capture failed');
-                        }
-                        return response.text();
-                    })
-                    .then(message => console.log(message))
-                    .catch(error => console.error('Error capturing thumbnail:', error));
-            }, 6000);
+            const sketchScript = document.createElement('script');
+            sketchScript.src = `sketches/${sketchName}/${sketchName}.js`;
+            document.body.appendChild(sketchScript);
         } else {
             const errorMsg = document.createElement('p');
-            errorMsg.textContent = 'Error: No sketch specified. Please provide a sketch name in the URL, e.g., ?sketch=test_sketch.js';
+            errorMsg.textContent = 'Error: No sketch specified. Please provide a sketch name in the URL, e.g., ?sketch=test_sketch';
             document.body.appendChild(errorMsg);
             document.getElementById('thumbnail-btn').style.display = 'none';
         }

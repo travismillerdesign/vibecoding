@@ -11,8 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const link = document.createElement('a');
                 link.href = `sketch.html?sketch=${sketchName}`;
-                link.target = '_blank';
-                link.rel = 'noopener noreferrer';
 
                 const thumbnail = document.createElement('img');
                 const thumbnailName = sketchName.replace('.js', '.png');
