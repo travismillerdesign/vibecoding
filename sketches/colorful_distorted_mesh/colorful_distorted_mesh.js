@@ -1,7 +1,7 @@
 let shaderProgram;
-let noiseSlider, detailSlider, colorDetailSlider;
+let noiseAmplitudeSlider, noiseScaleSlider, colorDetailSlider, animSpeedSlider, octavesSlider, meshDivisionsSlider;
 let rotXSlider, rotYSlider, rotZSlider;
-let noiseLabel, detailLabel, colorDetailLabel;
+let noiseAmplitudeLabel, noiseScaleLabel, colorDetailLabel, animSpeedLabel, octavesLabel, meshDivisionsLabel;
 let rotXLabel, rotYLabel, rotZLabel;
 
 function preload() {
@@ -11,31 +11,54 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
 
-  // Create sliders and labels for noise and color
-  noiseLabel = createDiv('Noise Amount');
-  noiseLabel.position(10, 10).style('color', 'white');
-  noiseSlider = createSlider(0, 200, 50, 1).position(10, 30).style('width', '200px');
+  // --- UI ---
+  let currentY = 10;
+  const sliderWidth = '200px';
+  const yStep = 50;
 
-  detailLabel = createDiv('Noise Detail');
-  detailLabel.position(10, 60).style('color', 'white');
-  detailSlider = createSlider(0.001, 0.1, 0.02, 0.001).position(10, 80).style('width', '200px');
+  // Animation Speed
+  animSpeedLabel = createDiv('Animation Speed').position(10, currentY).style('color', 'white');
+  animSpeedSlider = createSlider(0, 0.05, 0, 0.001).position(10, currentY += 20).style('width', sliderWidth);
+  currentY += yStep;
 
-  colorDetailLabel = createDiv('Color Detail');
-  colorDetailLabel.position(10, 110).style('color', 'white');
-  colorDetailSlider = createSlider(0, 5, 1, 0.1).position(10, 130).style('width', '200px');
+  // Noise Amplitude
+  noiseAmplitudeLabel = createDiv('Noise Amplitude').position(10, currentY).style('color', 'white');
+  noiseAmplitudeSlider = createSlider(0, 200, 100, 1).position(10, currentY += 20).style('width', sliderWidth);
+  currentY += yStep;
 
-  // Create sliders and labels for rotation
-  rotXLabel = createDiv('Rotate X');
-  rotXLabel.position(10, 160).style('color', 'white');
-  rotXSlider = createSlider(-PI, PI, PI / 3, 0.01).position(10, 180).style('width', '200px');
+  // Noise Scale
+  noiseScaleLabel = createDiv('Noise Scale').position(10, currentY).style('color', 'white');
+  noiseScaleSlider = createSlider(0.001, 0.5, 0.02, 0.001).position(10, currentY += 20).style('width', sliderWidth);
+  currentY += yStep;
 
-  rotYLabel = createDiv('Rotate Y');
-  rotYLabel.position(10, 210).style('color', 'white');
-  rotYSlider = createSlider(-PI, PI, 0, 0.01).position(10, 230).style('width', '200px');
+  // Noise Octaves
+  octavesLabel = createDiv('Noise Octaves').position(10, currentY).style('color', 'white');
+  octavesSlider = createSlider(1, 8, 4, 1).position(10, currentY += 20).style('width', sliderWidth);
+  currentY += yStep;
 
-  rotZLabel = createDiv('Rotate Z');
-  rotZLabel.position(10, 260).style('color', 'white');
-  rotZSlider = createSlider(-PI, PI, PI / 6, 0.01).position(10, 280).style('width', '200px');
+  // Color Detail
+  colorDetailLabel = createDiv('Color Detail').position(10, currentY).style('color', 'white');
+  colorDetailSlider = createSlider(0, 5, 1, 0.1).position(10, currentY += 20).style('width', sliderWidth);
+  currentY += yStep;
+
+  // Mesh Divisions
+  meshDivisionsLabel = createDiv('Mesh Divisions').position(10, currentY).style('color', 'white');
+  meshDivisionsSlider = createSlider(10, 200, 100, 1).position(10, currentY += 20).style('width', sliderWidth);
+  currentY += yStep;
+
+  // Rotation X
+  rotXLabel = createDiv('Rotate X').position(10, currentY).style('color', 'white');
+  rotXSlider = createSlider(-PI, PI, PI / 3, 0.01).position(10, currentY += 20).style('width', sliderWidth);
+  currentY += yStep;
+
+  // Rotation Y
+  rotYLabel = createDiv('Rotate Y').position(10, currentY).style('color', 'white');
+  rotYSlider = createSlider(-PI, PI, 0, 0.01).position(10, currentY += 20).style('width', sliderWidth);
+  currentY += yStep;
+
+  // Rotation Z
+  rotZLabel = createDiv('Rotate Z').position(10, currentY).style('color', 'white');
+  rotZSlider = createSlider(-PI, PI, PI / 6, 0.01).position(10, currentY += 20).style('width', sliderWidth);
 
   noStroke();
 }
@@ -46,9 +69,11 @@ function draw() {
   shader(shaderProgram);
 
   // Pass uniforms to the shader
-  shaderProgram.setUniform('u_time', frameCount * 0.01);
-  shaderProgram.setUniform('u_noise_amount', noiseSlider.value());
-  shaderProgram.setUniform('u_noise_detail', detailSlider.value());
+  shaderProgram.setUniform('u_time', frameCount);
+  shaderProgram.setUniform('u_anim_speed', animSpeedSlider.value());
+  shaderProgram.setUniform('u_noise_amplitude', noiseAmplitudeSlider.value());
+  shaderProgram.setUniform('u_noise_scale', noiseScaleSlider.value());
+  shaderProgram.setUniform('u_octaves', octavesSlider.value());
   shaderProgram.setUniform('u_color_detail', colorDetailSlider.value());
   shaderProgram.setUniform('u_resolution', [width, height]);
 
@@ -58,7 +83,8 @@ function draw() {
   rotateZ(rotZSlider.value());
 
   // Draw a plane with enough vertices for detail
-  plane(400, 400, 100, 100);
+  let meshDivisions = meshDivisionsSlider.value();
+  plane(400, 400, meshDivisions, meshDivisions);
 }
 
 function windowResized() {
@@ -67,15 +93,22 @@ function windowResized() {
 
 // remove sliders and labels when sketch is changed
 function cleanup() {
-    noiseSlider.remove();
-    detailSlider.remove();
+    animSpeedSlider.remove();
+    noiseAmplitudeSlider.remove();
+    noiseScaleSlider.remove();
+    octavesSlider.remove();
     colorDetailSlider.remove();
+    meshDivisionsSlider.remove();
     rotXSlider.remove();
     rotYSlider.remove();
     rotZSlider.remove();
-    noiseLabel.remove();
-    detailLabel.remove();
+
+    animSpeedLabel.remove();
+    noiseAmplitudeLabel.remove();
+    noiseScaleLabel.remove();
+    octavesLabel.remove();
     colorDetailLabel.remove();
+    meshDivisionsLabel.remove();
     rotXLabel.remove();
     rotYLabel.remove();
     rotZLabel.remove();
