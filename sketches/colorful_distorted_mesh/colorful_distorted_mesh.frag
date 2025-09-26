@@ -5,7 +5,7 @@ varying vec3 v_position;
 varying float v_displace;
 
 uniform float u_time;
-uniform float u_color_detail;
+uniform float u_color_noise_scale;
 uniform vec2 u_resolution;
 
 // 3D simplex noise function
@@ -67,7 +67,7 @@ vec3 hsb2rgb(vec3 c) {
 }
 
 void main() {
-  float hue = snoise(v_position * u_color_detail + v_displace * 0.1);
+  float hue = snoise(v_position * u_color_noise_scale + v_displace * 0.1);
   hue = fract(hue);
 
   vec3 color = hsb2rgb(vec3(hue, 0.8, 1.0));

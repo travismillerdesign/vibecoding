@@ -1,7 +1,7 @@
 let shaderProgram;
-let noiseAmplitudeSlider, noiseScaleSlider, colorDetailSlider, animSpeedSlider, octavesSlider, meshDivisionsSlider;
+let noiseAmplitudeSlider, noiseScaleSlider, colorNoiseScaleSlider, animSpeedSlider, octavesSlider, meshDivisionsSlider;
 let rotXSlider, rotYSlider, rotZSlider;
-let noiseAmplitudeLabel, noiseScaleLabel, colorDetailLabel, animSpeedLabel, octavesLabel, meshDivisionsLabel;
+let noiseAmplitudeLabel, noiseScaleLabel, colorNoiseScaleLabel, animSpeedLabel, octavesLabel, meshDivisionsLabel;
 let rotXLabel, rotYLabel, rotZLabel;
 
 function preload() {
@@ -18,7 +18,7 @@ function setup() {
 
   // Animation Speed
   animSpeedLabel = createDiv('Animation Speed').position(10, currentY).style('color', 'white');
-  animSpeedSlider = createSlider(0, 0.05, 0, 0.001).position(10, currentY += 20).style('width', sliderWidth);
+  animSpeedSlider = createSlider(0, 0.01, 0, 0.001).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
   // Noise Amplitude
@@ -28,7 +28,7 @@ function setup() {
 
   // Noise Scale
   noiseScaleLabel = createDiv('Noise Scale').position(10, currentY).style('color', 'white');
-  noiseScaleSlider = createSlider(0.001, 0.5, 0.02, 0.001).position(10, currentY += 20).style('width', sliderWidth);
+  noiseScaleSlider = createSlider(0.001, 2.0, 0.02, 0.001).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
   // Noise Octaves
@@ -36,14 +36,14 @@ function setup() {
   octavesSlider = createSlider(1, 8, 4, 1).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
-  // Color Detail
-  colorDetailLabel = createDiv('Color Detail').position(10, currentY).style('color', 'white');
-  colorDetailSlider = createSlider(0, 5, 1, 0.1).position(10, currentY += 20).style('width', sliderWidth);
+  // Color Noise Scale
+  colorNoiseScaleLabel = createDiv('Color Noise Scale').position(10, currentY).style('color', 'white');
+  colorNoiseScaleSlider = createSlider(0.001, 2.0, 1, 0.001).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
   // Mesh Divisions
   meshDivisionsLabel = createDiv('Mesh Divisions').position(10, currentY).style('color', 'white');
-  meshDivisionsSlider = createSlider(10, 200, 100, 1).position(10, currentY += 20).style('width', sliderWidth);
+  meshDivisionsSlider = createSlider(1, 200, 100, 1).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
   // Rotation X
@@ -74,7 +74,7 @@ function draw() {
   shaderProgram.setUniform('u_noise_amplitude', noiseAmplitudeSlider.value());
   shaderProgram.setUniform('u_noise_scale', noiseScaleSlider.value());
   shaderProgram.setUniform('u_octaves', octavesSlider.value());
-  shaderProgram.setUniform('u_color_detail', colorDetailSlider.value());
+  shaderProgram.setUniform('u_color_noise_scale', colorNoiseScaleSlider.value());
   shaderProgram.setUniform('u_resolution', [width, height]);
 
   // Apply rotation from sliders
@@ -97,7 +97,7 @@ function cleanup() {
     noiseAmplitudeSlider.remove();
     noiseScaleSlider.remove();
     octavesSlider.remove();
-    colorDetailSlider.remove();
+    colorNoiseScaleSlider.remove();
     meshDivisionsSlider.remove();
     rotXSlider.remove();
     rotYSlider.remove();
@@ -107,7 +107,7 @@ function cleanup() {
     noiseAmplitudeLabel.remove();
     noiseScaleLabel.remove();
     octavesLabel.remove();
-    colorDetailLabel.remove();
+    colorNoiseScaleLabel.remove();
     meshDivisionsLabel.remove();
     rotXLabel.remove();
     rotYLabel.remove();
