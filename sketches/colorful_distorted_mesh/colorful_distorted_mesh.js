@@ -28,7 +28,7 @@ function setup() {
 
   // Noise Scale
   noiseScaleLabel = createDiv('Noise Scale').position(10, currentY).style('color', 'white');
-  noiseScaleSlider = createSlider(0.001, 2.0, 0.02, 0.001).position(10, currentY += 20).style('width', sliderWidth);
+  noiseScaleSlider = createSlider(0.001, 2.0, 1.0, 0.001).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
   // Noise Octaves
@@ -38,7 +38,7 @@ function setup() {
 
   // Color Noise Scale
   colorNoiseScaleLabel = createDiv('Color Noise Scale').position(10, currentY).style('color', 'white');
-  colorNoiseScaleSlider = createSlider(0.001, 2.0, 1, 0.001).position(10, currentY += 20).style('width', sliderWidth);
+  colorNoiseScaleSlider = createSlider(0.001, 10.0, 1, 0.001).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
   // Color Amplitude
