@@ -18,7 +18,7 @@ function setup() {
 
   // Animation Speed
   animSpeedLabel = createDiv('Animation Speed').position(10, currentY).style('color', 'white');
-  animSpeedSlider = createSlider(0, 0.01, 0, 0.001).position(10, currentY += 20).style('width', sliderWidth);
+  animSpeedSlider = createSlider(0, 0.01, 0.001, 0.001).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
   // Distortion Amplitude
@@ -33,17 +33,17 @@ function setup() {
 
   // Noise Octaves
   octavesLabel = createDiv('Noise Octaves').position(10, currentY).style('color', 'white');
-  octavesSlider = createSlider(1, 8, 4, 1).position(10, currentY += 20).style('width', sliderWidth);
+  octavesSlider = createSlider(1, 8, 2, 1).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
   // Color Noise Scale
   colorNoiseScaleLabel = createDiv('Color Noise Scale').position(10, currentY).style('color', 'white');
-  colorNoiseScaleSlider = createSlider(0.001, 10.0, 1, 0.001).position(10, currentY += 20).style('width', sliderWidth);
+  colorNoiseScaleSlider = createSlider(0.001, 10.0, 2, 0.001).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
   // Color Amplitude
   colorAmplitudeLabel = createDiv('Color Amplitude').position(10, currentY).style('color', 'white');
-  colorAmplitudeSlider = createSlider(0, 1, 0.1, 0.01).position(10, currentY += 20).style('width', sliderWidth);
+  colorAmplitudeSlider = createSlider(0, 1, 0.5, 0.01).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
   // Mesh Divisions
@@ -63,13 +63,13 @@ function setup() {
 
   // Rotation Z
   rotZLabel = createDiv('Rotate Z').position(10, currentY).style('color', 'white');
-  rotZSlider = createSlider(-PI, PI, PI / 6, 0.01).position(10, currentY += 20).style('width', sliderWidth);
+  rotZSlider = createSlider(-PI, PI, PI / 3, 0.01).position(10, currentY += 20).style('width', sliderWidth);
 
   noStroke();
 }
 
 function draw() {
-  background(50);
+  background(0);
 
   shader(shaderProgram);
 
