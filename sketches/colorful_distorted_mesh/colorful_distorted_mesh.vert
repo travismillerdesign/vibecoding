@@ -9,16 +9,13 @@ uniform mat4 uModelViewMatrix;
 uniform mat3 uNormalMatrix;
 
 uniform float u_time;
-uniform float u_noise_amount;
-uniform float u_noise_detail;
+uniform float u_anim_speed;
+uniform float u_noise_amplitude;
+uniform float u_noise_scale;
+uniform int u_octaves;
 
 // 2D Simplex Noise.
-//
-// Author: Ian McEwan, Ashima Arts.
-// Copyright (C) 2011 Ashima Arts. All rights reserved.
-// Distributed under the MIT License. See LICENSE file.
-// https://github.com/ashima/webgl-noise
-//
+// ... (omitted for brevity, same as original)
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -51,13 +48,29 @@ float snoise(vec2 v) {
 }
 
 
+// Fractional Brownian Motion (fbm)
+float fbm(vec2 p) {
+    float value = 0.0;
+    float amplitude = 1.0; // Start with a higher amplitude
+    for (int i = 0; i < 8; ++i) {
+        if (i >= u_octaves) break;
+        value += amplitude * snoise(p);
+        p *= 2.0;
+        amplitude *= 0.5;
+    }
+    return value;
+}
+
 varying float v_displace;
 varying vec3 v_position;
 
 void main() {
   v_position = aPosition;
 
-  float displace = snoise(aPosition.xy * u_noise_detail + u_time) * u_noise_amount;
+  float time_offset = u_time * u_anim_speed;
+  vec2 noise_coord = aPosition.xy * u_noise_scale + time_offset;
+
+  float displace = fbm(noise_coord) * u_noise_amplitude;
   v_displace = displace;
 
   vec3 displaced_position = aPosition + vec3(0.0, 0.0, displace);
