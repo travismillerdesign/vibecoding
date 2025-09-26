@@ -1,7 +1,7 @@
 let shaderProgram;
-let noiseAmplitudeSlider, noiseScaleSlider, colorNoiseScaleSlider, animSpeedSlider, octavesSlider, meshDivisionsSlider;
+let distortionAmplitudeSlider, noiseScaleSlider, colorNoiseScaleSlider, animSpeedSlider, octavesSlider, meshDivisionsSlider, colorAmplitudeSlider;
 let rotXSlider, rotYSlider, rotZSlider;
-let noiseAmplitudeLabel, noiseScaleLabel, colorNoiseScaleLabel, animSpeedLabel, octavesLabel, meshDivisionsLabel;
+let distortionAmplitudeLabel, noiseScaleLabel, colorNoiseScaleLabel, animSpeedLabel, octavesLabel, meshDivisionsLabel, colorAmplitudeLabel;
 let rotXLabel, rotYLabel, rotZLabel;
 
 function preload() {
@@ -21,9 +21,9 @@ function setup() {
   animSpeedSlider = createSlider(0, 0.01, 0, 0.001).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
-  // Noise Amplitude
-  noiseAmplitudeLabel = createDiv('Noise Amplitude').position(10, currentY).style('color', 'white');
-  noiseAmplitudeSlider = createSlider(0, 200, 100, 1).position(10, currentY += 20).style('width', sliderWidth);
+  // Distortion Amplitude
+  distortionAmplitudeLabel = createDiv('Distortion Amplitude').position(10, currentY).style('color', 'white');
+  distortionAmplitudeSlider = createSlider(0, 200, 100, 1).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
   // Noise Scale
@@ -39,6 +39,11 @@ function setup() {
   // Color Noise Scale
   colorNoiseScaleLabel = createDiv('Color Noise Scale').position(10, currentY).style('color', 'white');
   colorNoiseScaleSlider = createSlider(0.001, 2.0, 1, 0.001).position(10, currentY += 20).style('width', sliderWidth);
+  currentY += yStep;
+
+  // Color Amplitude
+  colorAmplitudeLabel = createDiv('Color Amplitude').position(10, currentY).style('color', 'white');
+  colorAmplitudeSlider = createSlider(0, 1, 0.1, 0.01).position(10, currentY += 20).style('width', sliderWidth);
   currentY += yStep;
 
   // Mesh Divisions
@@ -71,10 +76,11 @@ function draw() {
   // Pass uniforms to the shader
   shaderProgram.setUniform('u_time', frameCount);
   shaderProgram.setUniform('u_anim_speed', animSpeedSlider.value());
-  shaderProgram.setUniform('u_noise_amplitude', noiseAmplitudeSlider.value());
+  shaderProgram.setUniform('u_distortion_amplitude', distortionAmplitudeSlider.value());
   shaderProgram.setUniform('u_noise_scale', noiseScaleSlider.value());
   shaderProgram.setUniform('u_octaves', octavesSlider.value());
   shaderProgram.setUniform('u_color_noise_scale', colorNoiseScaleSlider.value());
+  shaderProgram.setUniform('u_color_amplitude', colorAmplitudeSlider.value());
   shaderProgram.setUniform('u_resolution', [width, height]);
 
   // Apply rotation from sliders
@@ -94,20 +100,22 @@ function windowResized() {
 // remove sliders and labels when sketch is changed
 function cleanup() {
     animSpeedSlider.remove();
-    noiseAmplitudeSlider.remove();
+    distortionAmplitudeSlider.remove();
     noiseScaleSlider.remove();
     octavesSlider.remove();
     colorNoiseScaleSlider.remove();
+    colorAmplitudeSlider.remove();
     meshDivisionsSlider.remove();
     rotXSlider.remove();
     rotYSlider.remove();
     rotZSlider.remove();
 
     animSpeedLabel.remove();
-    noiseAmplitudeLabel.remove();
+    distortionAmplitudeLabel.remove();
     noiseScaleLabel.remove();
     octavesLabel.remove();
     colorNoiseScaleLabel.remove();
+    colorAmplitudeLabel.remove();
     meshDivisionsLabel.remove();
     rotXLabel.remove();
     rotYLabel.remove();

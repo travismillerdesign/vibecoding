@@ -10,7 +10,7 @@ uniform mat3 uNormalMatrix;
 
 uniform float u_time;
 uniform float u_anim_speed;
-uniform float u_noise_amplitude;
+uniform float u_distortion_amplitude;
 uniform float u_noise_scale;
 uniform int u_octaves;
 
@@ -61,7 +61,6 @@ float fbm(vec2 p) {
     return value;
 }
 
-varying float v_displace;
 varying vec3 v_position;
 
 void main() {
@@ -70,8 +69,7 @@ void main() {
   float time_offset = u_time * u_anim_speed;
   vec2 noise_coord = aPosition.xy * u_noise_scale + time_offset;
 
-  float displace = fbm(noise_coord) * u_noise_amplitude;
-  v_displace = displace;
+  float displace = fbm(noise_coord) * u_distortion_amplitude;
 
   vec3 displaced_position = aPosition + vec3(0.0, 0.0, displace);
 
