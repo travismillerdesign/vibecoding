@@ -2,6 +2,7 @@
     "sketches": [
         "test_sketch",
         "gradient_ripple",
-        "stroke_cone"
+        "stroke_cone",
+        "colorful_distorted_mesh"
     ]
 }
