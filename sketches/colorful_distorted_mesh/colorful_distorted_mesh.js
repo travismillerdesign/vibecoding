@@ -2,8 +2,7 @@ let shaderProgram;
 let noiseSlider, detailSlider, colorDetailSlider;
 let rotXSlider, rotYSlider, rotZSlider;
 let speedSlider;
-let noiseLabel, detailLabel, colorDetailLabel;
-let rotXLabel, rotYLabel, rotZLabel, speedLabel;
+let elements = [];
 
 function preload() {
   shaderProgram = loadShader('sketches/colorful_distorted_mesh/colorful_distorted_mesh.vert', 'sketches/colorful_distorted_mesh/colorful_distorted_mesh.frag');
@@ -12,45 +11,69 @@ function preload() {
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL);
 
-  // Create sliders and labels for noise and color
-  noiseLabel = createDiv('Noise Amount');
-  noiseLabel.position(10, 10).style('color', 'white');
-  noiseSlider = createSlider(0, 200, 100, 1).position(10, 30).style('width', '200px');
+  let p;
 
-  detailLabel = createDiv('Noise Detail');
-  detailLabel.position(10, 60).style('color', 'white');
-  detailSlider = createSlider(0.001, 0.1, 0.02, 0.001).position(10, 80).style('width', '200px');
+  p = createP('Noise Amount');
+  p.position(10, 5);
+  p.style('color', 'white');
+  elements.push(p);
+  noiseSlider = createSlider(0, 250, 100, 1);
+  noiseSlider.position(10, 25);
+  elements.push(noiseSlider);
 
-  colorDetailLabel = createDiv('Color Detail');
-  colorDetailLabel.position(10, 110).style('color', 'white');
-  colorDetailSlider = createSlider(0, 5, 1, 0.1).position(10, 130).style('width', '200px');
+  p = createP('Noise Detail');
+  p.position(10, 45);
+  p.style('color', 'white');
+  elements.push(p);
+  detailSlider = createSlider(0.001, 0.1, 0.02, 0.001);
+  detailSlider.position(10, 65);
+  elements.push(detailSlider);
 
-  // Create sliders and labels for rotation
-  rotXLabel = createDiv('Rotate X');
-  rotXLabel.position(10, 160).style('color', 'white');
-  rotXSlider = createSlider(-PI, PI, PI / 3, 0.01).position(10, 180).style('width', '200px');
+  p = createP('Color Detail');
+  p.position(10, 85);
+  p.style('color', 'white');
+  elements.push(p);
+  colorDetailSlider = createSlider(0, 5, 1, 0.1);
+  colorDetailSlider.position(10, 105);
+  elements.push(colorDetailSlider);
 
-  rotYLabel = createDiv('Rotate Y');
-  rotYLabel.position(10, 210).style('color', 'white');
-  rotYSlider = createSlider(-PI, PI, PI / 4, 0.01).position(10, 230).style('width', '200px');
+  p = createP('Animation Speed');
+  p.position(10, 125);
+  p.style('color', 'white');
+  elements.push(p);
+  speedSlider = createSlider(0, 0.1, 0, 0.001);
+  speedSlider.position(10, 145);
+  elements.push(speedSlider);
 
-  rotZLabel = createDiv('Rotate Z');
-  rotZLabel.position(10, 260).style('color', 'white');
-  rotZSlider = createSlider(-PI, PI, 0, 0.01).position(10, 280).style('width', '200px');
+  p = createP('Rotate X');
+  p.position(10, 165);
+  p.style('color', 'white');
+  elements.push(p);
+  rotXSlider = createSlider(-PI, PI, PI / 3, 0.01);
+  rotXSlider.position(10, 185);
+  elements.push(rotXSlider);
 
-  // Create slider for animation speed
-  speedLabel = createDiv('Animation Speed');
-  speedLabel.position(10, 310).style('color', 'white');
-  speedSlider = createSlider(0, 0.1, 0, 0.001).position(10, 330).style('width', '200px');
+  p = createP('Rotate Y');
+  p.position(10, 205);
+  p.style('color', 'white');
+  elements.push(p);
+  rotYSlider = createSlider(-PI, PI, PI / 4, 0.01);
+  rotYSlider.position(10, 225);
+  elements.push(rotYSlider);
+
+  p = createP('Rotate Z');
+  p.position(10, 245);
+  p.style('color', 'white');
+  elements.push(p);
+  rotZSlider = createSlider(-PI, PI, 0, 0.01);
+  rotZSlider.position(10, 265);
+  elements.push(rotZSlider);
 
   noStroke();
 }
 
 function draw() {
   background(50);
-
-  // Set camera position to be further away
-  camera(0, 0, 800, 0, 0, 0, 0, 1, 0);
 
   shader(shaderProgram);
 
@@ -66,7 +89,7 @@ function draw() {
   rotateY(rotYSlider.value());
   rotateZ(rotZSlider.value());
 
-  // Draw a plane with enough vertices for detail
+  // Use a plane with enough vertices for detail
   plane(400, 400, 150, 150);
 }
 
@@ -76,18 +99,8 @@ function windowResized() {
 
 // remove sliders and labels when sketch is changed
 function cleanup() {
-    noiseSlider.remove();
-    detailSlider.remove();
-    colorDetailSlider.remove();
-    rotXSlider.remove();
-    rotYSlider.remove();
-    rotZSlider.remove();
-    speedSlider.remove();
-    noiseLabel.remove();
-    detailLabel.remove();
-    colorDetailLabel.remove();
-    rotXLabel.remove();
-    rotYLabel.remove();
-    rotZLabel.remove();
-    speedLabel.remove();
+    for (let i = 0; i < elements.length; i++) {
+        elements[i].remove();
+    }
+    elements = [];
 }
